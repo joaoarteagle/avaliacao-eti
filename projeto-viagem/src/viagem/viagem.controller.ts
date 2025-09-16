@@ -1,4 +1,4 @@
-import { Controller } from '@nestjs/common';
+import { Controller, Get } from '@nestjs/common';
 import { ViagemService } from './viagem.service';
 
 
@@ -6,5 +6,9 @@ import { ViagemService } from './viagem.service';
 export class ViagemController {
   constructor(private readonly viagemService: ViagemService) {}
 
+  @Get('/')
+  async getViagems(){
+    return this.viagemService.getViagens();
+  }
 
 }

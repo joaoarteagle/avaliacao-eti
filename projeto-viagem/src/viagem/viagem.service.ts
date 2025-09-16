@@ -7,11 +7,24 @@ import { PrismaService } from 'src/prisma.service';
 export class ViagemService {
   constructor(private prisma: PrismaService){}
 
-  async getViagem(
-    viagem: Prisma.ViagemWhereUniqueInput,
-  ):Promise<Viagem | null>{
-    return this.prisma.viagem.findUnique({
-      where: viagem,
-    });
+  async getViagens():Promise<Viagem[]>{
+    return await this.prisma.viagem.findMany();
   }
+
+  // async getViagems(params:{
+  //   skip?:number;
+  //   take?: number;
+  //   cursor?: Prisma.ViagemWhereUniqueInput;
+  //   where?: Prisma.ViagemWhereInput;
+  //   orderBy?: Prisma.ViagemOrderByWithRelationInput;
+  // }):Promise<Viagem[]>{
+  //   const { skip, take, cursor, where, orderBy } = params;
+  //   return this.prisma.viagem.findMany({
+  //     skip,
+  //     take,
+  //     cursor,
+  //     where,
+  //     orderBy,
+  //   });
+  // }
 }
