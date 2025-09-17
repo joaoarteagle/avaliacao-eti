@@ -6,26 +6,32 @@
 
 generator client {
   provider = "prisma-client-js"
-  output   = "../generated/prisma"
 }
 
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
+model Viagem {
+  id          String    @id @default(cuid())
+  nome        String
+  dataSaida   DateTime  @map("data_saida")
+  dataChegada DateTime  @map("data_chegada")
+  valor       Decimal   @db.Decimal(10, 2)
+  createdAt   DateTime  @default(now()) @map("created_at")
+  updatedAt   DateTime  @updatedAt @map("updated_at")
+  destinos    Destino[]
 
-model Viagem{
-  id            Int @default(autoincrement()) @id
-  nome          String
-  dataSaida     DateTime
-  dataChegada   DateTime
-  valor         Float
-  destinos      Destino[]
+  @@map("viagens")
 }
 
-model Destino{
-  id        Int @default(autoincrement()) @id
+model Destino {
+  id        String   @id @default(cuid())
   nome      String
-  viagem    Viagem? @relation(fields: [idViagem], references: [id])
-  idViagem  Int? 
+  viagemId  String   @map("viagem_id")
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+  viagem    Viagem   @relation(fields: [viagemId], references: [id], onDelete: Cascade)
+
+  @@map("destinos")
 }
